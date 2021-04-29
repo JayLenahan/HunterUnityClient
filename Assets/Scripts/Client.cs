@@ -39,11 +39,17 @@ public class Client : MonoBehaviour
     udp = new UDP();
   }
 
+  public void ReInit()
+  {
+    Disconnect();
+    tcp = new TCP();
+    udp = new UDP();
+  }
+
   private void OnApplicationQuit()
   {
     Disconnect();
   }
-
   public void ConnectToServer()
   {
     InitializeClientData();
@@ -280,13 +286,13 @@ public class Client : MonoBehaviour
   private void InitializeClientData()
   {
     packetHandlers = new Dictionary<int, PacketHandler>()
-        {
-            { (int)ServerPackets.welcome, ClientHandle.Welcome },
-            { (int)ServerPackets.invalidLogin, ClientHandle.InvalidLogin },
-            { (int)ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer },
-            { (int)ServerPackets.playerPosition, ClientHandle.PlayerPosition },
-            { (int)ServerPackets.playerRotation, ClientHandle.PlayerRotation },
-        };
+    {
+        { (int)ServerPackets.welcome, ClientHandle.Welcome },
+        { (int)ServerPackets.invalidLogin, ClientHandle.InvalidLogin },
+        { (int)ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer },
+        { (int)ServerPackets.playerPosition, ClientHandle.PlayerPosition },
+        { (int)ServerPackets.playerRotation, ClientHandle.PlayerRotation }
+    };
     Debug.Log("Initialized packets.");
   }
 

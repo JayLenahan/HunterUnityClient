@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ClientSend : MonoBehaviour
 {
@@ -17,12 +18,14 @@ public class ClientSend : MonoBehaviour
   }
 
   #region Packets
-  public static void Welcome()
+  public static void Welcome(bool newUser)
   {
     using (Packet _packet = new Packet((int)ClientPackets.welcome))
     {
       _packet.Write(Client.instance.myId);
-      _packet.Write(UIManager.instance.usernameField.text);
+      _packet.Write(newUser);
+      _packet.Write(UIManager.instance.username.text);
+      _packet.Write(UIManager.instance.passwordAttempt.text);
 
       SendTCPData(_packet);
     }

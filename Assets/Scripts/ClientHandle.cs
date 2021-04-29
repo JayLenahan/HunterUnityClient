@@ -7,12 +7,13 @@ public class ClientHandle : MonoBehaviour
 {
   public static void Welcome(Packet _packet)
   {
-    string _msg = _packet.ReadString();
     int _myId = _packet.ReadInt();
+    string _msg = _packet.ReadString();
 
     Debug.Log($"Message from server: {_msg}");
     Client.instance.myId = _myId;
-    ClientSend.Welcome();
+
+    ClientSend.Welcome(UIManager.instance.NewUser);
 
     Client.instance.udp.Connect(((IPEndPoint)Client.instance.tcp.socket.Client.LocalEndPoint).Port);
   }
@@ -21,7 +22,8 @@ public class ClientHandle : MonoBehaviour
     int _myId = _packet.ReadInt();
     string _msg = _packet.ReadString();
 
-
+    UIManager.instance.InvalidLogin(_msg);
+    Client.instance.ReInit();
   }
   public static void SpawnPlayer(Packet _packet)
   {

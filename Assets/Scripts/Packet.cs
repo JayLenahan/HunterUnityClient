@@ -18,8 +18,6 @@ public enum ServerPackets
   playerRotation,
 
   clientDisconncet,
-
-  udpTest,
 }
 
 /// <summary>Sent from client to server.</summary>
@@ -31,8 +29,6 @@ public enum ClientPackets
 
   sendIntoGame,
   playerMovement,
-
-  udpTest,
 }
 
 public class Packet : IDisposable
