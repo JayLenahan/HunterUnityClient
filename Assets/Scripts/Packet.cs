@@ -8,7 +8,7 @@ using UnityEngine;
 public enum ServerPackets
 {
   welcome,
-  invalidLogin,
+  alert,
   loginSuccess,
   newUser,
   newCharacter,

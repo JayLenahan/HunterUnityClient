@@ -26,7 +26,8 @@ public class ClientSend : MonoBehaviour
       _packet.Write(newUser);
       _packet.Write(UIManager.instance.username.text);
       _packet.Write(UIManager.instance.passwordAttempt.text);
-
+      if(!newUser)
+        UIManager.instance.Loading(true);
       SendTCPData(_packet);
     }
   }
@@ -39,7 +40,7 @@ public class ClientSend : MonoBehaviour
       _packet.Write(UIManager.instance.newUserName.text);
       _packet.Write(UIManager.instance.newUserEmail.text);
       _packet.Write(UIManager.instance.newUserPassword.text);
-
+      UIManager.instance.Loading(true);
       SendTCPData(_packet);
     }
   }

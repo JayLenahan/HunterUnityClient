@@ -23,7 +23,18 @@ public class GameManager : MonoBehaviour
       Destroy(this);
     }
   }
-
+  public void SuccessfulLogin(int _id, string _username, List<Character> _characters)
+  {
+    if(_id == Client.instance.myId)
+    {
+      
+      //_player.GetComponent<PlayerManager>().id = _id;
+      //_player.GetComponent<PlayerManager>().username = _username;
+      //players.Add(_id, _player.GetComponent<PlayerManager>());
+      //players[_id].characters = _characters;
+      //UIManager.instance.LoadCharacterList(_characters);
+    }
+  }
   public void SpawnPlayer(int _id, string _username, Vector3 _position, Quaternion _rotation)
   {
     GameObject _player;
@@ -35,9 +46,5 @@ public class GameManager : MonoBehaviour
     {
       _player = Instantiate(playerPrefab, _position, _rotation);
     }
-
-    _player.GetComponent<PlayerManager>().id = _id;
-    _player.GetComponent<PlayerManager>().username = _username;
-    players.Add(_id, _player.GetComponent<PlayerManager>());
   }
 }

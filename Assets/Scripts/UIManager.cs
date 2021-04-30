@@ -9,8 +9,14 @@ public class UIManager : MonoBehaviour
   public static UIManager instance;
   public bool NewUser = false;
 
-  public GameObject startMenu;
+  [Header("Main & Overlays")]
+  public GameObject StartMenu;
   public GameObject loadingScreen;
+  public GameObject newPlayerScreen;
+
+  //Character select screen
+  [Header("Logged In")]
+  public GameObject CharacterSelectScreen;
 
   //Alert
   [Header("Alert")]
@@ -19,16 +25,14 @@ public class UIManager : MonoBehaviour
 
   //Login
   [Header("Login")]
-  public TextMeshProUGUI username;
+  public TMP_InputField username;
   public TMP_InputField passwordAttempt;
 
   //New User
   [Header("New User")]
-  public TextMeshProUGUI newUserName;
-  public TextMeshProUGUI newUserEmail;
+  public TMP_InputField newUserName;
+  public TMP_InputField newUserEmail;
   public TMP_InputField newUserPassword;
-
-  protected bool InvalidLog = false;
 
   private void Awake()
   {
@@ -43,9 +47,19 @@ public class UIManager : MonoBehaviour
     }
   }
 
-  public void InvalidLogin(string _msg)
+  public void LoadCharacterList(List<Character> _characters)
   {
-    InvalidLog = true;
+    foreach (var character in _characters)
+    {
+
+    }
+    StartMenu.SetActive(false);
+    CharacterSelectScreen.SetActive(true);
+    Loading(false);
+  }
+  
+  public void Alert(string _msg)
+  {
     AlertText.text = _msg;
     AlertModal.SetActive(true);
   }
@@ -59,5 +73,20 @@ public class UIManager : MonoBehaviour
   {
     NewUser = newUser;
     Client.instance.ConnectToServer();
+  }
+
+  public void Loading(bool loading)
+  {
+    loadingScreen.SetActive(loading);
+  }
+
+  public void Disconnected(string _msg)
+  {
+    newPlayerScreen.SetActive(false);
+    CharacterSelectScreen.SetActive(false);
+    StartMenu.SetActive(true);
+    Loading(false);
+    Alert(_msg);
+    Client.instance.ReInit();
   }
 }

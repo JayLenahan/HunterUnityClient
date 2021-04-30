@@ -13,17 +13,43 @@ public class ClientHandle : MonoBehaviour
     Debug.Log($"Message from server: {_msg}");
     Client.instance.myId = _myId;
 
+    UIManager.instance.Loading(false);
     ClientSend.Welcome(UIManager.instance.NewUser);
-
     Client.instance.udp.Connect(((IPEndPoint)Client.instance.tcp.socket.Client.LocalEndPoint).Port);
   }
-  public static void InvalidLogin(Packet _packet)
+
+  public static void LoginSuccessful(Packet _packet)
+  {
+    int _myId = _packet.ReadInt();
+    string _username = _packet.ReadString();
+    int _characterCount = _packet.ReadInt();
+    List<Character> _characters = new List<Character>();
+
+    for (var i = 0; i < _characterCount; i++)
+    {
+      _characters.Add(new Character
+      {
+        Id = _packet.ReadLong(),
+        Name = _packet.ReadString()
+      });
+    }
+    GameManager.instance.SuccessfulLogin(_myId, _username, _characters);
+  }
+
+  public static void Alert(Packet _packet)
   {
     int _myId = _packet.ReadInt();
     string _msg = _packet.ReadString();
 
-    UIManager.instance.InvalidLogin(_msg);
-    Client.instance.ReInit();
+    UIManager.instance.Disconnected(_msg);
+  }
+
+  public static void NewUserCreated(Packet _packet)
+  {
+    int _myId = _packet.ReadInt();
+    string _msg = _packet.ReadString();
+
+    UIManager.instance.Disconnected(_msg);
   }
   public static void SpawnPlayer(Packet _packet)
   {

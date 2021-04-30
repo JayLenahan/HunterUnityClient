@@ -38,7 +38,6 @@ public class Client : MonoBehaviour
     tcp = new TCP();
     udp = new UDP();
   }
-
   public void ReInit()
   {
     Disconnect();
@@ -288,7 +287,9 @@ public class Client : MonoBehaviour
     packetHandlers = new Dictionary<int, PacketHandler>()
     {
         { (int)ServerPackets.welcome, ClientHandle.Welcome },
-        { (int)ServerPackets.invalidLogin, ClientHandle.InvalidLogin },
+        { (int)ServerPackets.alert, ClientHandle.Alert },
+        { (int)ServerPackets.loginSuccess, ClientHandle.LoginSuccessful },
+        { (int)ServerPackets.newUser, ClientHandle.NewUserCreated },
         { (int)ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer },
         { (int)ServerPackets.playerPosition, ClientHandle.PlayerPosition },
         { (int)ServerPackets.playerRotation, ClientHandle.PlayerRotation }
@@ -303,7 +304,6 @@ public class Client : MonoBehaviour
       isConnected = false;
       tcp.socket.Close();
       udp.socket.Close();
-
       Debug.Log("Disconnected from server.");
     }
   }
